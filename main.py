@@ -114,6 +114,7 @@ class Referee(Animal):
         self.weight = 180
         self.intelligence = 3000
         self.attack_count = 0
+        self.death_count = 0
 
     def sound_off(self):
         print('Fight!\n') 
@@ -193,7 +194,7 @@ if __name__ == "__main__":
         else:
             break
 
-    logging.basicConfig(filename="std.csv", 
+    logging.basicConfig(filename="std3.csv", 
 					format='%(asctime)s %(message)s', 
 					filemode='w') 
     logger = logging.getLogger()
@@ -241,15 +242,17 @@ if __name__ == "__main__":
                 print('idk') 
 
 
-        print(f'{winner.hype_name} has been declared the Undisputed Champion of the World!!!')
-        winner.sound_off()
-        logger.debug(f',{winner.name}')
         if winner.attack_count > 19:
             print(f'{winner.hype_name} the {winner.scientific_name} has gone on a killing spree!!!')
+            arena.referee.death_count += 1
             while(arena.referee.health > 0):
                 damage = winner.attack()
                 arena.referee.health -= damage
                 print(f'{winner.hype_name} attacks {arena.referee.hype_name} for {damage} damage!')
                 if arena.referee.health <= 0:
                     print(f'{arena.referee.hype_name} has been completely shredded to bits by {winner.hype_name}')
+
+        print(f'{winner.hype_name} has been declared the Undisputed Champion of the World!!!')
+        winner.sound_off()
+        logger.debug(f',{winner.name}, {arena.referee.death_count}')
 

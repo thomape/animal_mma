@@ -193,8 +193,11 @@ if __name__ == "__main__":
         else:
             break
 
-    LOG_FILE = 'results.log'
-    logging.basicConfig(filename=LOG_FILE, level=logging.DEBUG)
+    logging.basicConfig(filename="std.csv", 
+					format='%(asctime)s %(message)s', 
+					filemode='w') 
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
 
     for i in range(int(matches)):
         bear = Bear()
@@ -240,7 +243,7 @@ if __name__ == "__main__":
 
         print(f'{winner.hype_name} has been declared the Undisputed Champion of the World!!!')
         winner.sound_off()
-        logging.debug(f'{winner.name}')
+        logger.debug(f',{winner.name}')
         if winner.attack_count > 19:
             print(f'{winner.hype_name} the {winner.scientific_name} has gone on a killing spree!!!')
             while(arena.referee.health > 0):

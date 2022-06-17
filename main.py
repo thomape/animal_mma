@@ -320,8 +320,8 @@ def create_new_contender():
                         continue
                     else:
                         break 
-                # case _:
-                #     print('Unknown error occured.')
+                case _:
+                    print('Unknown error occured.')
                    
     return contender_data
 

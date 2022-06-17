@@ -1,11 +1,12 @@
 import logging
 import random
+from smtplib import quoteaddr
 
 
 class Animal:
     def __init__(self):
         self.animal_class = 'Animal class'
-        self.name = 'Common name'
+        self.species = 'Species'
         self.scientific_name = 'Latin name'
         self.hype_name = 'Hype name'
         self.origin = 'Origin'
@@ -20,7 +21,7 @@ class Animal:
     def show_stats(self):
         stats = (
             f'Class = {self.animal_class}\n'
-            f'Common name = {self.name}\n'
+            f'Species = {self.species}\n'
             f'Scientific name = {self.scientific_name}\n'
             f'Hype name = {self.hype_name}\n'
             f'Country of origin = {self.origin}\n'
@@ -35,7 +36,7 @@ class Animal:
 
     def total_score(self):
         score = self.health + self.speed + self.attacks + self.defense + self.weight + self.intelligence
-        print(f'{self.name} has a total score of {score}')
+        print(f'{self.species} has a total score of {score}')
 
     def attack(self):
         attack_mode = random.randint(0,5)
@@ -61,10 +62,13 @@ class Animal:
     def flee(self):
         print('flee')
 
+    def sound_off(self):
+        print('Animal Noise\n')
+
 class Bear(Animal):
     def __init__(self):
         self.animal_class = 'Mammalia'
-        self.name = 'Grizzly bear'
+        self.species = 'Grizzly bear'
         self.hype_name = 'Smokey'
         self.scientific_name = 'Ursus arctos horribillis'
         self.origin = 'The United States of America'
@@ -82,7 +86,7 @@ class Bear(Animal):
 class Gorilla(Animal):
     def __init__(self):
         self.animal_class = 'Mammalia'
-        self.name = 'Silverback Gorilla'
+        self.species = 'Silverback Gorilla'
         self.scientific_name = 'Gorilla beringei'
         self.hype_name = 'Harambe'
         self.origin = 'The Democratic Republic of the Congo'
@@ -103,7 +107,7 @@ class Gorilla(Animal):
 class Referee(Animal):
     def __init__(self):
         self.animal_class = 'Mammalia'
-        self.name = 'Human'
+        self.species = 'Human'
         self.scientific_name = 'Homosapian'
         self.hype_name = 'Jeff'
         self.origin = 'Canada'
@@ -138,8 +142,8 @@ class Arena():
 
     def enter_arena(self):
         entrance = (
-            f'{self.contender1.name} has entered the arena.\n'
-            f'{self.contender2.name} has entered the arena.'
+            f'{self.contender1.species} has entered the arena.\n'
+            f'{self.contender2.species} has entered the arena.'
         )
 
         print(entrance)
@@ -149,13 +153,13 @@ class Arena():
             f'In the red corner...\n'
             f'Weighting in at {self.contender1.weight} pounds.\n'
             f'Hailing from {self.contender1.origin}\n'
-            f'{self.contender1.hype_name} the {self.contender1.name}\n'
+            f'{self.contender1.hype_name} the {self.contender1.species}\n'
         )
         blue = (
             f'In the blue corner...\n'  
             f'Weighting in at {self.contender2.weight} pounds.\n'
             f'All the way from {self.contender2.origin}\n'
-            f'{self.contender2.hype_name} the {self.contender2.name}\n'
+            f'{self.contender2.hype_name} the {self.contender2.species}\n'
         )
 
         reffing = (
@@ -183,16 +187,236 @@ class Arena():
 def battle_sequence(contenders):
     return random.choice(contenders)
 
+def create_new_contender():
+    custom_contender = Animal()
+    contender_data = {
+        'object' : custom_contender,
+        'Animal class' : '',
+        'Species' : '',
+        'Scientific name' : '',
+        'Hype name' :'',
+        'Origin' : '',
+        'Health' : 0,
+        'Speed' : 0,
+        'Attacks' : 0,
+        'Defense' : 0,
+        'Weight' : 0,
+        'Intelligence' : 0,
+    }
+
+
+    for data in contender_data:
+        while True:            
+            match data:
+                case 'object':
+                    break
+                case 'Animal class':
+                    try:
+                        response = str(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.animal_class = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break
+                case 'Species':
+                    try:
+                        response = str(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.species = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break                    
+                case 'Scientific name':
+                    try:
+                        response = str(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.scientific_name = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break                    
+                case 'Hype name':
+                    try:
+                        response = str(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.hype_name = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break                                   
+                case 'Origin':
+                    try:
+                        response = str(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.origin = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break                    
+                case 'Health':
+                    try:
+                        response = int(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.health = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break                          
+                case 'Speed':
+                    try:
+                        response = int(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.speed = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break                         
+                case 'Attacks':
+                    try:
+                        response = int(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.attacks = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break                         
+                case 'Defense':
+                    try:
+                        response = int(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.defense = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break    
+                case 'Weight':
+                    try:
+                        response = int(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.weight = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break                                                                                                                                                                                                          
+                case 'Intelligence':
+                    try:
+                        response = int(input(f'Set {data}:'))
+                        contender_data[data] = response
+                        custom_contender.intelligence = response
+                    except ValueError:
+                        print("Unaccaptable response. Enter valid value.")
+                        continue
+                    else:
+                        break 
+                # case _:
+                #     print('Unknown error occured.')
+                   
+    return contender_data
+
+def create_match():
+    response = input('What type of match? Custom, default, hybrid?')
+    response = response.lower()
+
+    match response:
+        case 'custom':
+            print('custom contender vs custom contender')
+            contender1 = create_new_contender()
+            contender2 = create_new_contender()
+        case 'default':
+            print('bear vs gorilla')
+            contender1 = {'object': Bear()}
+            contender2 = {'object': Gorilla()}
+        case 'hybrid':
+            print('bear/gorilla vs custom contender')
+            bear_v_gorilla = input('Bear or Gorilla?')
+            if bear_v_gorilla.lower() == 'bear':
+                contender1 = {'object': Bear()}
+                contender2 = create_new_contender()
+            elif bear_v_gorilla.lower == 'gorilla':
+                contender1 = {'object': Gorilla()}
+                contender2 = create_new_contender()
+            else:
+                print('Unknown contender choice')
+        case _:
+            print('Unknown case')
+
+    matches = input('How many matches would you like to simulate?')
+
+    return contender1 ,contender2, matches
+
+def reset_contenders(contender1_dict, contender2_dict):
+    if contender1_dict['object'].species.lower() == 'grizzly bear' and contender2_dict['object'].species.lower() == 'silverback gorilla':
+        print('if')
+        contender1_dict['object'].__init__()
+        contender2_dict['object'].__init__()
+    elif contender1_dict['object'].species.lower() == 'grizzly bear' or contender1_dict['object'].species.lower() == 'grizzly bear':
+        print('elif')
+        contender1_dict['object'].__init__()
+        contender2_dict['object'].animal_class = contender2_dict['Animal class']
+        contender2_dict['object'].species = contender2_dict['Species']
+        contender2_dict['object'].scientific_name = contender2_dict['Scientific name']
+        contender2_dict['object'].hype_name = contender2_dict['Hype name']
+        contender2_dict['object'].origin = contender2_dict['Origin']
+        contender2_dict['object'].health = contender2_dict['Health']
+        contender2_dict['object'].speed = contender2_dict['Speed']
+        contender2_dict['object'].attacks = contender2_dict['Attacks']
+        contender2_dict['object'].defense = contender2_dict['Defense']
+        contender2_dict['object'].weight = contender2_dict['Weight']
+        contender2_dict['object'].intelligence = contender2_dict['Intelligence']
+    else:
+        print('else')
+        contender1_dict['object'].animal_class = contender1_dict['Animal class']
+        contender1_dict['object'].species = contender1_dict['Species']
+        contender1_dict['object'].scientific_name = contender1_dict['Scientific name']
+        contender1_dict['object'].hype_name = contender1_dict['Hype name']
+        contender1_dict['object'].origin = contender1_dict['Origin']
+        contender1_dict['object'].health = contender1_dict['Health']
+        contender1_dict['object'].speed = contender1_dict['Speed']
+        contender1_dict['object'].attacks = contender1_dict['Attacks']
+        contender1_dict['object'].defense = contender1_dict['Defense']
+        contender1_dict['object'].weight = contender1_dict['Weight']
+        contender1_dict['object'].intelligence = contender1_dict['Intelligence']
+
+        contender2_dict['object'].animal_class = contender2_dict['Animal class']
+        contender2_dict['object'].species = contender2_dict['Species']
+        contender2_dict['object'].scientific_name = contender2_dict['Scientific name']
+        contender2_dict['object'].hype_name = contender2_dict['Hype name']
+        contender2_dict['object'].origin = contender2_dict['Origin']
+        contender2_dict['object'].health = contender2_dict['Health']
+        contender2_dict['object'].speed = contender2_dict['Speed']
+        contender2_dict['object'].attacks = contender2_dict['Attacks']
+        contender2_dict['object'].defense = contender2_dict['Defense']
+        contender2_dict['object'].weight = contender2_dict['Weight']
+        contender2_dict['object'].intelligence = contender2_dict['Intelligence']
+
+
+def initiate_battle():
+    print('battle begins')
 
 if __name__ == "__main__":
 
-    matches = 0
-    while(int(matches) < 1):
-        matches = input('How many matches would you like to simulate?')
-        if int(matches) != type(int):
-            continue
-        else:
-            break
+    contender1_dict, contender2_dict, matches = create_match()
+    contender1, contender2 = contender1_dict['object'], contender2_dict['object']
+
+    # matches = 0
+    # while(int(matches) < 1):
+    #     matches = input('How many matches would you like to simulate?')
+    #     if int(matches) != type(int):
+    #         continue
+    #     else:
+    #         break
 
     logging.basicConfig(filename="std3.csv", 
 					format='%(asctime)s %(message)s', 
@@ -201,10 +425,9 @@ if __name__ == "__main__":
     logger.setLevel(logging.DEBUG)
 
     for i in range(int(matches)):
-        bear = Bear()
-        gorilla = Gorilla()
 
-        arena = Arena(gorilla, bear)
+
+        arena = Arena(contender1,contender2)
 
         arena.enter_arena()
         arena.hype_session()
@@ -212,32 +435,32 @@ if __name__ == "__main__":
         arena.referee.rules()
         arena.referee.sound_off()
 
-        contenders = [bear.name, gorilla.name]
+        contenders = [contender1.species, contender2.species]
 
-        while(bear.health > 0 and gorilla.health > 0):
+        while(contender1.health > 0 and contender2.health > 0):
             attacker = battle_sequence(contenders)
-            if attacker == bear.name:
-                damage = bear.attack()
-                gorilla.health -= damage       
-                bear.attack_count += 1     
-                print(f'{bear.hype_name} attacks for {damage} damage!')
-                if gorilla.health <= 0:
-                    print(f'{gorilla.hype_name} has been knocked out!!!\n')
-                    winner = bear
+            if attacker == contender1.species:
+                damage = contender1.attack()
+                contender2.health -= damage       
+                contender1.attack_count += 1     
+                print(f'{contender1.hype_name} attacks for {damage} damage!')
+                if contender2.health <= 0:
+                    print(f'{contender2.hype_name} has been knocked out!!!\n')
+                    winner = contender1
                     break
                 else:
-                    print(f'{gorilla.hype_name} is at {gorilla.health} health\n')
-            elif attacker == gorilla.name:
-                damage = gorilla.attack()
-                bear.health -= damage
-                gorilla.attack_count += 1
-                print(f'{gorilla.hype_name} attacks for {damage} damage!')
-                if bear.health <= 0:
-                    print(f'{bear.hype_name} has been knocked out!!!\n')
-                    winner = gorilla
+                    print(f'{contender2.hype_name} is at {contender2.health} health\n')
+            elif attacker == contender2.species:
+                damage = contender2.attack()
+                contender1.health -= damage
+                contender2.attack_count += 1
+                print(f'{contender2.hype_name} attacks for {damage} damage!')
+                if contender1.health <= 0:
+                    print(f'{contender1.hype_name} has been knocked out!!!\n')
+                    winner = contender2
                     break
                 else:
-                    print(f'{bear.hype_name} is at {bear.health} health.\n')
+                    print(f'{contender1.hype_name} is at {contender1.health} health.\n')
             else:
                 print('idk') 
 
@@ -254,5 +477,6 @@ if __name__ == "__main__":
 
         print(f'{winner.hype_name} has been declared the Undisputed Champion of the World!!!')
         winner.sound_off()
-        logger.debug(f',{winner.name}, {arena.referee.death_count}')
+        logger.debug(f',{winner.species}, {arena.referee.death_count}')
+        reset_contenders(contender1_dict, contender2_dict)
 
